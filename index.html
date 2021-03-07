@@ -1,0 +1,604 @@
+<!doctype html>
+<html class="default no-js">
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>bonfida-bot</title>
+	<meta name="description" content="Documentation for bonfida-bot">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="assets/css/main.css">
+	<script async src="assets/js/search.js" id="search-script"></script>
+</head>
+<body>
+<header>
+	<div class="tsd-page-toolbar">
+		<div class="container">
+			<div class="table-wrap">
+				<div class="table-cell" id="tsd-search" data-index="assets/js/search.json" data-base=".">
+					<div class="field">
+						<label for="tsd-search-field" class="tsd-widget search no-caption">Search</label>
+						<input id="tsd-search-field" type="text" />
+					</div>
+					<ul class="results">
+						<li class="state loading">Preparing search index...</li>
+						<li class="state failure">The search index is not available</li>
+					</ul>
+					<a href="index.html" class="title">bonfida-bot</a>
+				</div>
+				<div class="table-cell" id="tsd-widgets">
+					<div id="tsd-filter">
+						<a href="#" class="tsd-widget options no-caption" data-toggle="options">Options</a>
+						<div class="tsd-filter-group">
+							<div class="tsd-select" id="tsd-filter-visibility">
+								<span class="tsd-select-label">All</span>
+								<ul class="tsd-select-list">
+									<li data-value="public">Public</li>
+									<li data-value="protected">Public/Protected</li>
+									<li data-value="private" class="selected">All</li>
+								</ul>
+							</div>
+							<input type="checkbox" id="tsd-filter-inherited" checked />
+							<label class="tsd-widget" for="tsd-filter-inherited">Inherited</label>
+							<input type="checkbox" id="tsd-filter-externals" checked />
+							<label class="tsd-widget" for="tsd-filter-externals">Externals</label>
+						</div>
+					</div>
+					<a href="#" class="tsd-widget menu no-caption" data-toggle="menu">Menu</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="tsd-page-title">
+		<div class="container">
+			<h1>bonfida-bot</h1>
+		</div>
+	</div>
+</header>
+<div class="container container-main">
+	<div class="row">
+		<div class="col-8 col-content">
+			<div class="tsd-panel tsd-typography">
+				<p><a href="https://www.npmjs.com/package/bonfida-bot"><img src="https://img.shields.io/npm/v/bonfida-bot" alt="npm (scoped)"></a></p>
+				<a href="#bonfida-bot-js-library" id="bonfida-bot-js-library" style="color: inherit; text-decoration: none;">
+					<h1>Bonfida-bot JS library</h1>
+				</a>
+				<p>A JavaScript client library for interacting with the bonfida-bot on-chain program. This library can be used for :</p>
+				<ul>
+					<li>Creating pools.</li>
+					<li>Trading on behalf of pools by sending signals.</li>
+					<li>Depositing assets into a pool in exchange for pool tokens.</li>
+					<li>Redeeming pool tokens to retrieve an investement from the pool.</li>
+				</ul>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<p>This library provides bindings for different pool operations. Adding it to a project is quite easy.
+				Using npm:</p>
+				<pre><code><span style="color: #001080">npm</span><span style="color: #000000"> </span><span style="color: #001080">install</span><span style="color: #000000"> </span><span style="color: #001080">bonfida</span><span style="color: #000000">-</span><span style="color: #001080">bot</span>
+</code></pre>
+				<p>Using yarn:</p>
+				<pre><code><span style="color: #001080">yarn</span><span style="color: #000000"> </span><span style="color: #001080">add</span><span style="color: #000000"> </span><span style="color: #001080">bonfida</span><span style="color: #000000">-</span><span style="color: #001080">bot</span>
+</code></pre>
+				<a href="#concepts" id="concepts" style="color: inherit; text-decoration: none;">
+					<h2>Concepts</h2>
+				</a>
+				<a href="#pool-state-and-locking" id="pool-state-and-locking" style="color: inherit; text-decoration: none;">
+					<h3>Pool state and locking</h3>
+				</a>
+				<p>There are two scenarios in which a pool can find itself in a <em>locked</em> state :</p>
+				<ul>
+					<li>There are pending orders : some Serun orders have not yet been settled with the <code>settleFunds</code> instruction.</li>
+					<li>There are fees to collect. At intervals greater than a week, signal provider and Bonfida fees must be extracted from the pool.</li>
+				</ul>
+				<p>However, a <em>locked</em> pool can be unlocked with a sequence of permissionless operations. When the pool has pending orders, it is often possible to
+					resolve the situation by running a <code>settleFunds</code> instruction. This is due to the fact that orders are either in the event queue and waiting to
+				be consumed by Serum permissionless crankers, or waiting to be settled. When the pool has fees to collect, the permissionless <code>collectFees</code> instruction extracts all accrued fees from the pool and transfers those to defined signal provider (50% of fee) and Bonfida wallets (25% of fee), as well as a FIDA buy and burn address (25% of fee).</p>
+				<p>TLDR: It is always possible for users to unlock the pool when they want to exit or even just enter into it.</p>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#creating-a-pool" id="creating-a-pool" style="color: inherit; text-decoration: none;">
+					<h3>Creating a pool</h3>
+				</a>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">createPool</span><span style="color: #000000">, } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000">, </span><span style="color: #001080">Numberu16</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">, </span><span style="color: #001080">SERUM_PROGRAM_ID</span><span style="color: #000000">, </span><span style="color: #001080">ENDPOINTS</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/main&#039;</span><span style="color: #000000">;</span>
+
+
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">connection</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Connection</span><span style="color: #000000">(</span><span style="color: #0070C1">ENDPOINTS</span><span style="color: #000000">.</span><span style="color: #001080">mainnet</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sourceOwnerAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">([&lt;</span><span style="color: #001080">private_key_array</span><span style="color: #000000">&gt;]);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">([&lt;</span><span style="color: #001080">private_key_array</span><span style="color: #000000">&gt;]);</span>
+
+<span style="color: #008000">// The payer account will pay for the fees involved with the transaction.</span>
+<span style="color: #008000">// For the sake of simplicity, we choose the source owner.</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #001080">sourceOwnerAccount</span>
+
+<span style="color: #008000">// Creating a pool means making the initial deposit.</span>
+<span style="color: #008000">// Any number of assets can be added. For each asset, the public key of the payer token account should be provided.</span>
+<span style="color: #008000">// The deposit amounts are also given</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sourceAssetKey</span><span style="color: #000000"> = [</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;First asset Key&gt;&quot;</span><span style="color: #000000">),</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;Second asset Key&gt;&quot;</span><span style="color: #000000">),</span>
+<span style="color: #000000">]</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">deposit_amounts</span><span style="color: #000000"> = [</span><span style="color: #098658">1</span><span style="color: #000000">, </span><span style="color: #098658">1</span><span style="color: #000000">];</span>
+
+<span style="color: #008000">// Maximum number of assets that can be held by the pool at any given time.</span>
+<span style="color: #008000">// A higher number means more flexibility but increases the initial pool account allocation fee.</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">maxNumberOfAsset</span><span style="color: #000000"> = </span><span style="color: #098658">10</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// It is necessary for the purpose of security to hardcode all Serum markets that will be usable by the pool.</span>
+<span style="color: #008000">// It is advised to put here as many trusted markets with enough liquidity as required.</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">allowedMarkets</span><span style="color: #000000"> = [</span><span style="color: #001080">marketInfo</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">];</span>
+
+<span style="color: #008000">// Interval of time in seconds between two fee collections. This must be greater or equal to a week.</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">feeCollectionPeriod</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">604800</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Total ratio of pool to be collected as fees at an interval defined by feeCollectionPeriod</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">feeRatio</span><span style="color: #000000"> = </span><span style="color: #098658">0.001</span><span style="color: #000000">;</span>
+
+
+<span style="color: #008000">// Create pool</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">, </span><span style="color: #001080">createInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createPool</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span>
+<span style="color: #000000">    </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">deposit_amounts</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">maxNumberOfAsset</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">allowedMarkets</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// @ts-ignore</span>
+<span style="color: #000000">    </span><span style="color: #001080">feeCollectionPeriod</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// @ts-ignore</span>
+<span style="color: #000000">    </span><span style="color: #001080">feeRatio</span>
+<span style="color: #000000">)</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// The owner of the source asset accounts must sign this transaction.</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">createInstructions</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Created Pool&quot;</span><span style="color: #000000">)</span>
+
+</code></pre>
+				<a href="#signal-provider-operations" id="signal-provider-operations" style="color: inherit; text-decoration: none;">
+					<h3>Signal provider operations</h3>
+				</a>
+				<a href="#sending-an-order-to-the-pool-as-a-signal-provider" id="sending-an-order-to-the-pool-as-a-signal-provider" style="color: inherit; text-decoration: none;">
+					<h4>Sending an order to the pool as a signal provider</h4>
+				</a>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">createOrder</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000">, </span><span style="color: #001080">Numberu16</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">connection</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Connection</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;https://mainnet-beta.solana.com&quot;</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">marketInfo</span><span style="color: #000000"> = </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">[</span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">m</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">m</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">}).</span><span style="color: #795E26">lastIndexOf</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;Market name, FIDA/USDC for instance&gt;&quot;</span><span style="color: #000000">)];</span>
+
+
+<span style="color: #008000">// Each bonfida-bot pool is identified by a 32 byte pool seed</span>
+<span style="color: #008000">// This seed can be encoded as a base58 string which is similar to a public key.</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">poolSeed</span><span style="color: #000000"> = </span><span style="color: #001080">bs58</span><span style="color: #000000">.</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;pool_seeds&gt;&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">poolInfo</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">fetchPoolInfo</span><span style="color: #000000">(</span><span style="color: #001080">connection</span><span style="color: #000000">, </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">, </span><span style="color: #001080">poolSeed</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">(&lt;</span><span style="color: #267F99">private_key_array</span><span style="color: #000000">&gt;);</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">side</span><span style="color: #000000"> = </span><span style="color: #001080">OrderSide</span><span style="color: #000000">.</span><span style="color: #001080">Ask</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// The limit price is defined as the number of price currency lots required to pay for a lot of coin currency.</span>
+<span style="color: #008000">// The coin lot size and price currency lot sizes are defined by the Serum market object.</span>
+<span style="color: #008000">// TODO: rework bindings to take in an actual price instead of bothering with lot sizes.</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">limit_price</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">&lt;&lt;</span><span style="color: #098658">63</span><span style="color: #000000">);</span>
+<span style="color: #008000">// @ts-ignore</span>
+
+<span style="color: #008000">// The max quanity is defined as the maximum amount of coin to be exchanged in the transaction.</span>
+<span style="color: #008000">// If the order is an Ask, this equates to the maximum quantity willing to be sold.</span>
+<span style="color: #008000">// If the order is a Bid, this equates to the maximum quantity which is required to be bought.</span>
+<span style="color: #008000">// TODO: In reality, it might be interesting to give more control by exposing the max price currency quantity to be exchanged in the case of a Bid order</span>
+<span style="color: #008000">// since matches can sometimes be more advantageous than the bid price.</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">max_quantity</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu16</span><span style="color: #000000">(</span><span style="color: #098658">1</span><span style="color: #000000">&lt;&lt;</span><span style="color: #098658">15</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Until partial cancels of orders are implemented in Serum, the only supported order type for pools is IOC.</span>
+<span style="color: #008000">// This prevents long running limit orders from locking the pool and allows users to buy in and out of the pool</span>
+<span style="color: #008000">// at their owen convenience.</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">order_type</span><span style="color: #000000"> = </span><span style="color: #001080">OrderType</span><span style="color: #000000">.</span><span style="color: #001080">ImmediateOrCancel</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// The client_id can always be set to 0 for now. Its only use is to give the ability to refer to a particular order easily by this id in</span>
+<span style="color: #008000">// order to cancel it. Since only IOC orders are supported for now, the client_id can be set to any value.</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">client_id</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">0</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// This only really matters for market makers. Since only IOC orders are supported for now, this parameter doesn&#039;t really matter.</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">self_trade_behavior</span><span style="color: #000000"> = </span><span style="color: #001080">SelfTradeBehavior</span><span style="color: #000000">.</span><span style="color: #001080">DecrementTake</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">createPoolTxInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createOrder</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">SERUM_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">poolInfo</span><span style="color: #000000">.</span><span style="color: #001080">seed</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">marketInfo</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">OrderSide</span><span style="color: #000000">.</span><span style="color: #001080">Ask</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">limit_price</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">max_quantity</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">order_type</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">client_id</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">self_trade_behavior</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">null</span><span style="color: #000000">, </span><span style="color: #008000">// Self referring</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signers</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">createPoolTxInstructions</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Created Order for Pool&quot;</span><span style="color: #000000">)</span>
+
+</code></pre>
+				<a href="#non-privileged-operations" id="non-privileged-operations" style="color: inherit; text-decoration: none;">
+					<h3>Non-privileged operations</h3>
+				</a>
+				<a href="#depositing-funds-into-a-pool" id="depositing-funds-into-a-pool" style="color: inherit; text-decoration: none;">
+					<h4>Depositing funds into a pool</h4>
+				</a>
+				<p>In exchange for a distribution of tokens which is proportional to the current asset holdings of the pool, a pool will issue pool tokens which
+				are redeemable for a commensurate proportion of pool assets at a later date. This operation represents the fundamental investment mechanism.</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">deposit</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">Numberu64</span><span style="color: #000000">,</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/main&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// This value represents the maximum amount of pool tokens being requested by the user</span>
+<span style="color: #008000">// If the source asset accounts happen to be underfunded for this value to be reached,</span>
+<span style="color: #008000">// The pool will attempt to issue as many pool tokens as possible to the client while</span>
+<span style="color: #008000">// proportionately extracting funds from the source asset accounts.</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">poolTokenAmount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">3000000</span><span style="color: #000000">);</span>
+
+<span style="color: #008000">// Deposit into Pool</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">depositTxInstructions</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">deposit</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">poolTokenAmount</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [</span><span style="color: #001080">poolInfo</span><span style="color: #000000">.</span><span style="color: #001080">seed</span><span style="color: #000000">],</span>
+<span style="color: #000000">  </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signer</span>
+<span style="color: #000000">  </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">depositTxInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Deposited into Pool&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#retrieving-funds-from-a-pool" id="retrieving-funds-from-a-pool" style="color: inherit; text-decoration: none;">
+					<h4>Retrieving funds from a pool</h4>
+				</a>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">redeem</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">Numberu64</span><span style="color: #000000">,</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/main&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #008000">// By setting this value to be lower than the actual pool token balance of the pool token account,</span>
+<span style="color: #008000">// It is possible to partially redeem assets from a pool.</span>
+<span style="color: #008000">// @ts-ignore</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">poolTokenAmount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">1000000</span><span style="color: #000000">);</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">redeemTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">redeem</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">sourcePoolTokenKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [</span><span style="color: #001080">poolInfo</span><span style="color: #000000">.</span><span style="color: #001080">seed</span><span style="color: #000000">],</span>
+<span style="color: #000000">  [</span><span style="color: #001080">poolTokenAmount</span><span style="color: #000000">],</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signer</span>
+<span style="color: #000000">  </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">redeemTxInstruction</span><span style="color: #000000">,</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Redeemed out of Pool&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+				<a href="#settling-funds-from-an-order" id="settling-funds-from-an-order" style="color: inherit; text-decoration: none;">
+					<h3>Settling funds from an order</h3>
+				</a>
+				<p>Once a Serum order has gone through, it is necessary to retrieve the funds from the openOrder account in order to unlock the pool for all deposit and
+				redeem operations. Thankfully, this operation is permissionless which means that a locked pool is unlockable by anyone. This means that in order to make sure that a deposit or redeem instruction will go through, it is interesting to precede it with a settle instruction in the same transaction.</p>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">settleFunds</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">(&lt;</span><span style="color: #267F99">private_key_array</span><span style="color: #000000">&gt;);</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">settleFundsTxInstructions</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">settleFunds</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">SERUM_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">poolInfo</span><span style="color: #000000">.</span><span style="color: #001080">seed</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">marketInfo</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">OpenOrderAccount</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span>
+<span style="color: #000000">  );</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    [], </span><span style="color: #008000">// No signer is required for this transaction! (Except to pay for transaction fees)</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">settleFundsTxInstructions</span>
+<span style="color: #000000">  );</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Settled Funds&quot;</span><span style="color: #000000">)</span>
+
+</code></pre>
+				<a href="#triggering-a-fee-collection-operation" id="triggering-a-fee-collection-operation" style="color: inherit; text-decoration: none;">
+					<h3>Triggering a fee collection operation</h3>
+				</a>
+				<p>In order to unlock a potentially unlocked pool, or in order to trigger fee collection as a signal provider, it is necesary to
+				activate the <code>collectFees</code> permissionless crank.</p>
+				<table>
+					<thead>
+						<tr>
+							<th>Beneficiary</th>
+							<th>Fee Proportion</th>
+						</tr>
+					</thead>
+					<tbody><tr>
+							<td>Signal provider</td>
+							<td>50%</td>
+						</tr>
+						<tr>
+							<td>Bonfida Ltd.</td>
+							<td>25%</td>
+						</tr>
+						<tr>
+							<td>FIDA buy and burn</td>
+							<td>25%</td>
+						</tr>
+				</tbody></table>
+				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">collectFees</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/instructions&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot/utils&#039;</span><span style="color: #000000">;</span>
+
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">collectFeesTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">collectFees</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [</span><span style="color: #001080">poolInfo</span><span style="color: #000000">.</span><span style="color: #001080">seed</span><span style="color: #000000">],</span>
+<span style="color: #000000">);</span>
+
+<span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [],</span>
+<span style="color: #000000">  </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">collectFeesTxInstruction</span><span style="color: #000000">,</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Redeemed out of Pool&#039;</span><span style="color: #000000">);</span>
+</code></pre>
+			</div>
+		</div>
+		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
+			<nav class="tsd-navigation primary">
+				<ul>
+					<li class=" ">
+						<a href="modules.html">Exports</a>
+					</li>
+				</ul>
+			</nav>
+			<nav class="tsd-navigation secondary menu-sticky">
+				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/instruction.html" class="tsd-kind-icon">Instruction</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/orderside.html" class="tsd-kind-icon">Order<wbr>Side</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/ordertype.html" class="tsd-kind-icon">Order<wbr>Type</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/poolstatusid.html" class="tsd-kind-icon">Pool<wbr>StatusID</a>
+					</li>
+					<li class=" tsd-kind-enum">
+						<a href="enums/selftradebehavior.html" class="tsd-kind-icon">Self<wbr>Trade<wbr>Behavior</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberu128.html" class="tsd-kind-icon">Numberu128</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberu16.html" class="tsd-kind-icon">Numberu16</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberu32.html" class="tsd-kind-icon">Numberu32</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/numberu64.html" class="tsd-kind-icon">Numberu64</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/poolasset.html" class="tsd-kind-icon">Pool<wbr>Asset</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/poolheader.html" class="tsd-kind-icon">Pool<wbr>Header</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolassetbalance.html" class="tsd-kind-icon">Pool<wbr>Asset<wbr>Balance</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#marketdata" class="tsd-kind-icon">Market<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#poolinfo" class="tsd-kind-icon">Pool<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-type-alias">
+						<a href="modules.html#poolstatus" class="tsd-kind-icon">Pool<wbr>Status</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#associated_token_program_id" class="tsd-kind-icon">ASSOCIATED_<wbr>TOKEN_<wbr>PROGRAM_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#bonfidabot_program_id" class="tsd-kind-icon">BONFIDABOT_<wbr>PROGRAM_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#bonfida_bnb_key" class="tsd-kind-icon">BONFIDA_<wbr>BNB_<wbr>KEY</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#bonfida_fee_key" class="tsd-kind-icon">BONFIDA_<wbr>FEE_<wbr>KEY</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#endpoints" class="tsd-kind-icon">ENDPOINTS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#fida_key" class="tsd-kind-icon">FIDA_<wbr>KEY</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#pubkey_length" class="tsd-kind-icon">PUBKEY_<wbr>LENGTH</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#public_pools_seeds" class="tsd-kind-icon">PUBLIC_<wbr>POOLS_<wbr>SEEDS</a>
+					</li>
+					<li class=" tsd-kind-variable">
+						<a href="modules.html#serum_program_id" class="tsd-kind-icon">SERUM_<wbr>PROGRAM_<wbr>ID</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#cancelorder" class="tsd-kind-icon">cancel<wbr>Order</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#cancelorderinstruction" class="tsd-kind-icon">cancel<wbr>Order<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#collectfees" class="tsd-kind-icon">collect<wbr>Fees</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#collectfeesinstruction" class="tsd-kind-icon">collect<wbr>Fees<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createassociatedtokenaccount" class="tsd-kind-icon">create<wbr>Associated<wbr>Token<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createinstruction" class="tsd-kind-icon">create<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createorder" class="tsd-kind-icon">create<wbr>Order</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createorderinstruction" class="tsd-kind-icon">create<wbr>Order<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#createpool" class="tsd-kind-icon">create<wbr>Pool</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#deposit" class="tsd-kind-icon">deposit</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#depositinstruction" class="tsd-kind-icon">deposit<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#fetchpoolbalances" class="tsd-kind-icon">fetch<wbr>Pool<wbr>Balances</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#fetchpoolinfo" class="tsd-kind-icon">fetch<wbr>Pool<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#findandcreateassociatedaccount" class="tsd-kind-icon">find<wbr>And<wbr>Create<wbr>Associated<wbr>Account</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#findassociatedtokenaddress" class="tsd-kind-icon">find<wbr>Associated<wbr>Token<wbr>Address</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getaccountfromseed" class="tsd-kind-icon">get<wbr>Account<wbr>From<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getderivedseed" class="tsd-kind-icon">get<wbr>Derived<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getmarketdata" class="tsd-kind-icon">get<wbr>Market<wbr>Data</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getmidprice" class="tsd-kind-icon">get<wbr>Mid<wbr>Price</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpooltokenmintfromseed" class="tsd-kind-icon">get<wbr>Pool<wbr>Token<wbr>Mint<wbr>From<wbr>Seed</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpoolsseedsbysigprovider" class="tsd-kind-icon">get<wbr>Pools<wbr>Seeds<wbr>BySig<wbr>Provider</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#initinstruction" class="tsd-kind-icon">init<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#redeem" class="tsd-kind-icon">redeem</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#redeeminstruction" class="tsd-kind-icon">redeem<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#settlefunds" class="tsd-kind-icon">settle<wbr>Funds</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#settlefundsinstruction" class="tsd-kind-icon">settle<wbr>Funds<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#signandsendtransactioninstructions" class="tsd-kind-icon">sign<wbr>And<wbr>Send<wbr>Transaction<wbr>Instructions</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#singletokendeposit" class="tsd-kind-icon">single<wbr>Token<wbr>Deposit</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#sleep" class="tsd-kind-icon">sleep</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#unpack_assets" class="tsd-kind-icon">unpack_<wbr>assets</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#unpack_markets" class="tsd-kind-icon">unpack_<wbr>markets</a>
+					</li>
+				</ul>
+			</nav>
+		</div>
+	</div>
+</div>
+<footer class="with-border-bottom">
+	<div class="container">
+		<h2>Legend</h2>
+		<div class="tsd-legend-group">
+			<ul class="tsd-legend">
+				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
+				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static property</span></li>
+				<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><span class="tsd-kind-icon">Static method</span></li>
+			</ul>
+			<ul class="tsd-legend">
+				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
+			</ul>
+		</div>
+	</div>
+</footer>
+<div class="container tsd-generator">
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
+</div>
+<div class="overlay"></div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
