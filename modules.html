@@ -86,6 +86,9 @@
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface"><a href="interfaces/poolassetbalance.html" class="tsd-kind-icon">Pool<wbr>Asset<wbr>Balance</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/poolinstructioninfo.html" class="tsd-kind-icon">Pool<wbr>Instruction<wbr>Info</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/poolorderinfo.html" class="tsd-kind-icon">Pool<wbr>Order<wbr>Info</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/poolsettleinfo.html" class="tsd-kind-icon">Pool<wbr>Settle<wbr>Info</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
@@ -132,13 +135,19 @@
 								<li class="tsd-kind-function"><a href="modules.html#getderivedseed" class="tsd-kind-icon">get<wbr>Derived<wbr>Seed</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getmarketdata" class="tsd-kind-icon">get<wbr>Market<wbr>Data</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getmidprice" class="tsd-kind-icon">get<wbr>Mid<wbr>Price</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#getpoolorderinfos" class="tsd-kind-icon">get<wbr>Pool<wbr>Order<wbr>Infos</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#getpoolordersinfosfromsignature" class="tsd-kind-icon">get<wbr>Pool<wbr>Orders<wbr>Infos<wbr>From<wbr>Signature</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getpooltokenmintfromseed" class="tsd-kind-icon">get<wbr>Pool<wbr>Token<wbr>Mint<wbr>From<wbr>Seed</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#getpoolsseedsbysigprovider" class="tsd-kind-icon">get<wbr>Pools<wbr>Seeds<wbr>BySig<wbr>Provider</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#initinstruction" class="tsd-kind-icon">init<wbr>Instruction</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#loggablepoolorderinfo" class="tsd-kind-icon">loggable<wbr>Pool<wbr>Order<wbr>Info</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#parsecreateorderinstruction" class="tsd-kind-icon">parse<wbr>Create<wbr>Order<wbr>Instruction</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#parsesettleinstruction" class="tsd-kind-icon">parse<wbr>Settle<wbr>Instruction</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#redeem" class="tsd-kind-icon">redeem</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#redeeminstruction" class="tsd-kind-icon">redeem<wbr>Instruction</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#settlefunds" class="tsd-kind-icon">settle<wbr>Funds</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#settlefundsinstruction" class="tsd-kind-icon">settle<wbr>Funds<wbr>Instruction</a></li>
+								<li class="tsd-kind-function"><a href="modules.html#settlepool" class="tsd-kind-icon">settle<wbr>Pool</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#signandsendtransactioninstructions" class="tsd-kind-icon">sign<wbr>And<wbr>Send<wbr>Transaction<wbr>Instructions</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#singletokendeposit" class="tsd-kind-icon">single<wbr>Token<wbr>Deposit</a></li>
 								<li class="tsd-kind-function"><a href="modules.html#sleep" class="tsd-kind-icon">sleep</a></li>
@@ -157,7 +166,7 @@
 					<div class="tsd-signature tsd-kind-icon">Market<wbr>Data<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>asksKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>bidsKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>coinLotSize<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a><span class="tsd-signature-symbol">; </span>coinMintKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>coinVaultKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>eventQueueKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>pcLotSize<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a><span class="tsd-signature-symbol">; </span>pcMintKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>pcVaultKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>reqQueueKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>vaultSignerNonce<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L35">utils.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L35">utils.ts:35</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -208,7 +217,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pool<wbr>Info<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>address<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>assetMintkeys<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>authorizedMarkets<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">; </span>feePeriod<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a><span class="tsd-signature-symbol">; </span>feeRatio<span class="tsd-signature-symbol">: </span><a href="classes/numberu16.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu16</a><span class="tsd-signature-symbol">; </span>mintKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Uint8Array</span><span class="tsd-signature-symbol">; </span>serumProgramId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>signalProvider<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">; </span>status<span class="tsd-signature-symbol">: </span><a href="modules.html#poolstatus" class="tsd-signature-type" data-tsd-kind="Type alias">PoolStatus</a><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L35">secondary_bindings.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L55">secondary_bindings.ts:55</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -253,7 +262,7 @@
 					<div class="tsd-signature tsd-kind-icon">Pool<wbr>Status<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">[</span><a href="enums/poolstatusid.html" class="tsd-signature-type" data-tsd-kind="Enumeration">PoolStatusID</a><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/state.ts#L35">state.ts:35</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/state.ts#L35">state.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -266,7 +275,7 @@
 					<div class="tsd-signature tsd-kind-icon">ASSOCIATED_<wbr>TOKEN_<wbr>PROGRAM_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L272">utils.ts:272</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L272">utils.ts:272</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -276,7 +285,7 @@
 					<div class="tsd-signature tsd-kind-icon">BONFIDABOT_<wbr>PROGRAM_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L54">main.ts:54</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L55">main.ts:55</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -286,7 +295,7 @@
 					<div class="tsd-signature tsd-kind-icon">BONFIDA_<wbr>BNB_<wbr>KEY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L62">main.ts:62</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L63">main.ts:63</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -296,17 +305,17 @@
 					<div class="tsd-signature tsd-kind-icon">BONFIDA_<wbr>FEE_<wbr>KEY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L58">main.ts:58</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L59">main.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-variable">
 					<a name="endpoints" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> ENDPOINTS</h3>
-					<div class="tsd-signature tsd-kind-icon">ENDPOINTS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>devnet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mainnet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
+					<div class="tsd-signature tsd-kind-icon">ENDPOINTS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>devnet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mainnet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>mainnet2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L49">main.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L49">main.ts:49</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -318,6 +327,9 @@
 							<li class="tsd-parameter">
 								<h5>mainnet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
 							</li>
+							<li class="tsd-parameter">
+								<h5>mainnet2<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
 						</ul>
 					</div>
 				</section>
@@ -327,7 +339,7 @@
 					<div class="tsd-signature tsd-kind-icon">FIDA_<wbr>KEY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L70">main.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L71">main.ts:71</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -337,7 +349,7 @@
 					<div class="tsd-signature tsd-kind-icon">PUBKEY_<wbr>LENGTH<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 32</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/state.ts#L20">state.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/state.ts#L20">state.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -347,7 +359,7 @@
 					<div class="tsd-signature tsd-kind-icon">PUBLIC_<wbr>POOLS_<wbr>SEEDS<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L74">main.ts:74</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L75">main.ts:75</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -357,7 +369,7 @@
 					<div class="tsd-signature tsd-kind-icon">SERUM_<wbr>PROGRAM_<wbr>ID<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L66">main.ts:66</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L67">main.ts:67</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -374,7 +386,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L603">main.ts:603</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L614">main.ts:614</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -413,7 +425,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L388">instructions.ts:388</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L388">instructions.ts:388</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -469,7 +481,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L737">main.ts:737</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L748">main.ts:748</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -508,7 +520,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L633">instructions.ts:633</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L633">instructions.ts:633</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -555,7 +567,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L275">utils.ts:275</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L275">utils.ts:275</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -587,7 +599,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L71">instructions.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L71">instructions.ts:71</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -649,19 +661,20 @@
 					<a name="createorder" class="tsd-anchor"></a>
 					<h3>create<wbr>Order</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">create<wbr>Order<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, market<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span>, side<span class="tsd-signature-symbol">: </span><a href="enums/orderside.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderSide</a>, limitPrice<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a>, maxQuantityPercentage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, orderType<span class="tsd-signature-symbol">: </span><a href="enums/ordertype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderType</a>, clientId<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a>, selfTradeBehavior<span class="tsd-signature-symbol">: </span><a href="enums/selftradebehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">SelfTradeBehavior</a>, srmDiscountKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, payerKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TransactionInstruction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">create<wbr>Order<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, market<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span>, side<span class="tsd-signature-symbol">: </span><a href="enums/orderside.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderSide</a>, limitPrice<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a>, maxQuantityPercentage<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, orderType<span class="tsd-signature-symbol">: </span><a href="enums/ordertype.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderType</a>, clientId<span class="tsd-signature-symbol">: </span><a href="classes/numberu64.html" class="tsd-signature-type" data-tsd-kind="Class">Numberu64</a>, selfTradeBehavior<span class="tsd-signature-symbol">: </span><a href="enums/selftradebehavior.html" class="tsd-signature-type" data-tsd-kind="Enumeration">SelfTradeBehavior</a>, srmDiscountKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, payerKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span>, amountToTrade<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TransactionInstruction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L343">main.ts:343</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L348">main.ts:348</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
 									<p>Returns the solana instructions to create a new serum order for the pool.
-									(Signed by the SignalProvider account of the pool)</p>
+										(Signed by the SignalProvider account of the pool and the OpenOrder Account
+									returned by this function)</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -732,6 +745,14 @@
 										<p>The address of the account that should pay for the allocation fees</p>
 									</div>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> amountToTrade: <span class="tsd-signature-type">number</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>If this optional argument is given, it will overwrite the maxQuantityPercentage and fix
+											the size of the order in base quantity. If you want to trade one and a half FIDA on FIDA/USDC for example,
+										give 1.5 as an input here.</p>
+									</div>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">TransactionInstruction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
@@ -747,7 +768,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L250">instructions.ts:250</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L250">instructions.ts:250</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -857,7 +878,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L97">main.ts:97</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L98">main.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -945,7 +966,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L232">main.ts:232</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L233">main.ts:233</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1011,7 +1032,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L163">instructions.ts:163</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L163">instructions.ts:163</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1070,9 +1091,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L100">secondary_bindings.ts:100</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L209">secondary_bindings.ts:209</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Fetch the balances of the poolToken and the assets (returned in the same order as in the poolData)</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1080,6 +1106,8 @@
 								</li>
 								<li>
 									<h5>poolSeed: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">TokenAmount</span><span class="tsd-signature-symbol">, </span><a href="interfaces/poolassetbalance.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolAssetBalance</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1096,9 +1124,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L48">secondary_bindings.ts:48</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L152">secondary_bindings.ts:152</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a structure containing most informations that one can parse from a pools state.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1106,6 +1139,8 @@
 								</li>
 								<li>
 									<h5>poolSeed: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="modules.html#poolinfo" class="tsd-signature-type" data-tsd-kind="Type alias">PoolInfo</a><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1122,7 +1157,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L249">utils.ts:249</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L249">utils.ts:249</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1157,7 +1192,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L19">utils.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L19">utils.ts:19</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1183,7 +1218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L336">utils.ts:336</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L336">utils.ts:336</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1206,7 +1241,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L330">utils.ts:330</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L330">utils.ts:330</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1229,7 +1264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L50">utils.ts:50</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L50">utils.ts:50</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1255,7 +1290,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L79">utils.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L79">utils.ts:79</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1272,6 +1307,67 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="getpoolorderinfos" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Pool<wbr>Order<wbr>Infos</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Pool<wbr>Order<wbr>Infos<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, n<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L834">secondary_bindings.ts:834</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connection: <span class="tsd-signature-type">Connection</span></h5>
+								</li>
+								<li>
+									<h5>poolSeed: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+								</li>
+								<li>
+									<h5>n: <span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="getpoolordersinfosfromsignature" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Pool<wbr>Orders<wbr>Infos<wbr>From<wbr>Signature</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Pool<wbr>Orders<wbr>Infos<wbr>From<wbr>Signature<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, poolInfo<span class="tsd-signature-symbol">: </span><a href="modules.html#poolinfo" class="tsd-signature-type" data-tsd-kind="Type alias">PoolInfo</a>, poolAssetMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span>, sig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ConfirmedSignatureInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/poolinstructioninfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolInstructionInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L771">secondary_bindings.ts:771</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connection: <span class="tsd-signature-type">Connection</span></h5>
+								</li>
+								<li>
+									<h5>poolInfo: <a href="modules.html#poolinfo" class="tsd-signature-type" data-tsd-kind="Type alias">PoolInfo</a></h5>
+								</li>
+								<li>
+									<h5>poolAssetMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>sig: <span class="tsd-signature-type">ConfirmedSignatureInfo</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/poolinstructioninfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolInstructionInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="getpooltokenmintfromseed" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> get<wbr>Pool<wbr>Token<wbr>Mint<wbr>From<wbr>Seed</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -1281,7 +1377,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L520">secondary_bindings.ts:520</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L665">secondary_bindings.ts:665</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1304,9 +1400,15 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L484">secondary_bindings.ts:484</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L631">secondary_bindings.ts:631</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the seeds of the pools managed by the given signal provider.
+									Returns all poolseeds for the current BonfidaBot program if no signal provider was given.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1314,6 +1416,8 @@
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagOptional">Optional</span> signalProviderKey: <span class="tsd-signature-type">PublicKey</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1330,7 +1434,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L10">instructions.ts:10</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L10">instructions.ts:10</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1371,6 +1475,140 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="loggablepoolorderinfo" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> loggable<wbr>Pool<wbr>Order<wbr>Info</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">loggable<wbr>Pool<wbr>Order<wbr>Info<span class="tsd-signature-symbol">(</span>o<span class="tsd-signature-symbol">: </span><a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">{ </span>clientOrderId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>limitPrice<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>market<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>openOrderAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>orderType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ratioOfPoolAssetsToTrade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>selfTradeBehavior<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>settledAmount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>side<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionSignature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionSlot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>transferredAmount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/types.ts#L41">types.ts:41</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>o: <a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">{ </span>clientOrderId<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>limitPrice<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>market<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>openOrderAccount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>orderType<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">; </span>ratioOfPoolAssetsToTrade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>selfTradeBehavior<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>settledAmount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>side<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionSignature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">; </span>transactionSlot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">; </span>transferredAmount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> }</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter">
+									<h5>client<wbr>Order<wbr>Id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>limit<wbr>Price<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>market<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>open<wbr>Order<wbr>Account<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>order<wbr>Type<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>pool<wbr>Seed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>ratio<wbr>OfPool<wbr>Assets<wbr>ToTrade<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>self<wbr>Trade<wbr>Behavior<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>settled<wbr>Amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>side<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>transaction<wbr>Signature<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>transaction<wbr>Slot<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+								<li class="tsd-parameter">
+									<h5>transferred<wbr>Amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></h5>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="parsecreateorderinstruction" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> parse<wbr>Create<wbr>Order<wbr>Instruction</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Create<wbr>Order<wbr>Instruction<span class="tsd-signature-symbol">(</span>instruction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TransactionInstruction</span>, poolInfo<span class="tsd-signature-symbol">: </span><a href="modules.html#poolinfo" class="tsd-signature-type" data-tsd-kind="Type alias">PoolInfo</a>, sig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ConfirmedSignatureInfo</span>, cpiInstructions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CompiledInstruction</span><span class="tsd-signature-symbol">[]</span>, accounts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L677">secondary_bindings.ts:677</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>instruction: <span class="tsd-signature-type">TransactionInstruction</span></h5>
+								</li>
+								<li>
+									<h5>poolInfo: <a href="modules.html#poolinfo" class="tsd-signature-type" data-tsd-kind="Type alias">PoolInfo</a></h5>
+								</li>
+								<li>
+									<h5>sig: <span class="tsd-signature-type">ConfirmedSignatureInfo</span></h5>
+								</li>
+								<li>
+									<h5>cpiInstructions: <span class="tsd-signature-type">CompiledInstruction</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>accounts: <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="interfaces/poolorderinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolOrderInfo</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="parsesettleinstruction" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagConst">Const</span> parse<wbr>Settle<wbr>Instruction</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">parse<wbr>Settle<wbr>Instruction<span class="tsd-signature-symbol">(</span>instruction<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">TransactionInstruction</span>, sig<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ConfirmedSignatureInfo</span>, cpiInstructions<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CompiledInstruction</span><span class="tsd-signature-symbol">[]</span>, poolAssetMap<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span>, accounts<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/poolsettleinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolSettleInfo</a></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L726">secondary_bindings.ts:726</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>instruction: <span class="tsd-signature-type">TransactionInstruction</span></h5>
+								</li>
+								<li>
+									<h5>sig: <span class="tsd-signature-type">ConfirmedSignatureInfo</span></h5>
+								</li>
+								<li>
+									<h5>cpiInstructions: <span class="tsd-signature-type">CompiledInstruction</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>poolAssetMap: <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								</li>
+								<li>
+									<h5>accounts: <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><a href="interfaces/poolsettleinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">PoolSettleInfo</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="redeem" class="tsd-anchor"></a>
 					<h3>redeem</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -1380,7 +1618,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L674">main.ts:674</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L685">main.ts:685</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1388,7 +1626,7 @@
 									<p>Returns the solana instructions to buy out of the pool by redeeming (burning) pooltokens.
 										This instruction needs to be executed after (and within the same transaction)
 										having settled on all possible open orders for the pool.
-										This because as long as an order is open for the pool, redeeming is impossible.
+										This is because as long as an order is open for the pool, redeeming is impossible.
 									(Signed by the owner of the pooltokens)</p>
 								</div>
 							</div>
@@ -1445,7 +1683,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L558">instructions.ts:558</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L558">instructions.ts:558</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1498,7 +1736,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/main.ts#L510">main.ts:510</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/main.ts#L521">main.ts:521</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1554,7 +1792,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/instructions.ts#L460">instructions.ts:460</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/instructions.ts#L460">instructions.ts:460</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1613,6 +1851,44 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="settlepool" class="tsd-anchor"></a>
+					<h3>settle<wbr>Pool</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">settle<wbr>Pool<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, srmRefWallet<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionInstruction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L82">secondary_bindings.ts:82</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns the solana instructions to settle all open orders for a given pool.
+										If the returned transaction array is too large for it to be sent on Solana,
+									you may need to process it batch-wise.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>connection: <span class="tsd-signature-type">Connection</span></h5>
+								</li>
+								<li>
+									<h5>poolSeed: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+								<li>
+									<h5>srmRefWallet: <span class="tsd-signature-type">PublicKey</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> = null</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">TransactionInstruction</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">&gt;</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
 					<a name="signandsendtransactioninstructions" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> sign<wbr>And<wbr>Send<wbr>Transaction<wbr>Instructions</h3>
 					<ul class="tsd-signatures tsd-kind-function">
@@ -1622,7 +1898,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L233">utils.ts:233</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L233">utils.ts:233</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1648,15 +1924,22 @@
 					<a name="singletokendeposit" class="tsd-anchor"></a>
 					<h3>single<wbr>Token<wbr>Deposit</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">single<wbr>Token<wbr>Deposit<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, sourceOwner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Wallet</span>, sourceTokenKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span>, amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, payer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">single<wbr>Token<wbr>Deposit<span class="tsd-signature-symbol">(</span>connection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Connection</span>, sourceOwner<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Wallet</span>, sourceTokenKey<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">PublicKey</span>, user_amount<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, poolSeed<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span>, payer<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Account</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/secondary_bindings.ts#L145">secondary_bindings.ts:145</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/secondary_bindings.ts#L263">secondary_bindings.ts:263</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>This method lets the user deposit an arbitrary token into the pool
+										by intermediately trading with serum in order to reach the pool asset ratio.
+									(WIP)</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
@@ -1669,13 +1952,15 @@
 									<h5>sourceTokenKey: <span class="tsd-signature-type">PublicKey</span></h5>
 								</li>
 								<li>
-									<h5>amount: <span class="tsd-signature-type">number</span></h5>
+									<h5>user_amount: <span class="tsd-signature-type">number</span></h5>
 								</li>
 								<li>
 									<h5>poolSeed: <span class="tsd-signature-type">Buffer</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Uint8Array</span></h5>
 								</li>
 								<li>
 									<h5>payer: <span class="tsd-signature-type">Account</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -1692,7 +1977,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/utils.ts#L227">utils.ts:227</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/utils.ts#L227">utils.ts:227</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1715,7 +2000,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/state.ts#L134">state.ts:134</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/state.ts#L134">state.ts:134</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1738,7 +2023,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/541256f/js/src/state.ts#L155">state.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/f31146d/js/src/state.ts#L155">state.ts:155</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1801,6 +2086,15 @@
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/poolassetbalance.html" class="tsd-kind-icon">Pool<wbr>Asset<wbr>Balance</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolinstructioninfo.html" class="tsd-kind-icon">Pool<wbr>Instruction<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolorderinfo.html" class="tsd-kind-icon">Pool<wbr>Order<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/poolsettleinfo.html" class="tsd-kind-icon">Pool<wbr>Settle<wbr>Info</a>
 					</li>
 					<li class=" tsd-kind-type-alias">
 						<a href="modules.html#marketdata" class="tsd-kind-icon">Market<wbr>Data</a>
@@ -1896,6 +2190,12 @@
 						<a href="modules.html#getmidprice" class="tsd-kind-icon">get<wbr>Mid<wbr>Price</a>
 					</li>
 					<li class=" tsd-kind-function">
+						<a href="modules.html#getpoolorderinfos" class="tsd-kind-icon">get<wbr>Pool<wbr>Order<wbr>Infos</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#getpoolordersinfosfromsignature" class="tsd-kind-icon">get<wbr>Pool<wbr>Orders<wbr>Infos<wbr>From<wbr>Signature</a>
+					</li>
+					<li class=" tsd-kind-function">
 						<a href="modules.html#getpooltokenmintfromseed" class="tsd-kind-icon">get<wbr>Pool<wbr>Token<wbr>Mint<wbr>From<wbr>Seed</a>
 					</li>
 					<li class=" tsd-kind-function">
@@ -1903,6 +2203,15 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#initinstruction" class="tsd-kind-icon">init<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#loggablepoolorderinfo" class="tsd-kind-icon">loggable<wbr>Pool<wbr>Order<wbr>Info</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#parsecreateorderinstruction" class="tsd-kind-icon">parse<wbr>Create<wbr>Order<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#parsesettleinstruction" class="tsd-kind-icon">parse<wbr>Settle<wbr>Instruction</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#redeem" class="tsd-kind-icon">redeem</a>
@@ -1915,6 +2224,9 @@
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#settlefundsinstruction" class="tsd-kind-icon">settle<wbr>Funds<wbr>Instruction</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="modules.html#settlepool" class="tsd-kind-icon">settle<wbr>Pool</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="modules.html#signandsendtransactioninstructions" class="tsd-kind-icon">sign<wbr>And<wbr>Send<wbr>Transaction<wbr>Instructions</a>
