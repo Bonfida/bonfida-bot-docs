@@ -92,7 +92,7 @@
 				</ul>
 				<p>However, a <em>locked</em> pool can be unlocked with a sequence of permissionless operations. When the pool has pending orders, it is often possible to
 					resolve the situation by running a <code>settleFunds</code> instruction. This is due to the fact that orders are either in the event queue and waiting to
-				be consumed by Serum permissionless crankers, or waiting to be settled. When the pool has fees to collect, the permissionless <code>collectFees</code> instruction extracts all accrued fees from the pool and transfers those to defined signal provider (50% of fee) and Bonfida wallets (25% of fee), as well as a FIDA buy and burn address (25% of fee).</p>
+				be consumed by Serum permissionless crankers, or waiting to be settled. When the pool has fees to collect, the permissionless <code>collectFees</code> instruction extracts all accrued fees from the pool and transfers those to defined signal provider (50% of fee) and Bonfida Bots Insurance Fund (25% of fee), as well as a FIDA buy and burn address (25% of fee).</p>
 				<p>TLDR: It is always possible for users to unlock the pool when they want to exit or even just enter into it.</p>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
@@ -105,37 +105,36 @@
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">ENDPOINTS</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 
-
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">connection</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Connection</span><span style="color: #000000">(</span><span style="color: #0070C1">ENDPOINTS</span><span style="color: #000000">.</span><span style="color: #001080">mainnet</span><span style="color: #000000">);</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sourceOwnerAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">([</span><span style="color: #A31515">&quot;&lt;MY PRIVATE KEY ARRAY&gt;&quot;</span><span style="color: #000000">]);</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">([</span><span style="color: #A31515">&quot;&lt;MY PRIVATE KEY ARRAY AGAIN&gt;&quot;</span><span style="color: #000000">]);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sourceOwnerAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">([</span><span style="color: #A31515">&#039;&lt;MY PRIVATE KEY ARRAY&gt;&#039;</span><span style="color: #000000">]);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">([</span><span style="color: #A31515">&#039;&lt;MY PRIVATE KEY ARRAY AGAIN&gt;&#039;</span><span style="color: #000000">]);</span>
 
 <span style="color: #008000">// The payer account will pay for the fees involved with the transaction.</span>
 <span style="color: #008000">// For the sake of simplicity, we choose the source owner.</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #001080">sourceOwnerAccount</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// Creating a pool means making the initial deposit.</span>
 <span style="color: #008000">// Any number of assets can be added. For each asset, the public key of the payer token account should be provided.</span>
 <span style="color: #008000">// The deposit amounts are also given, with the precision (mostly 6 decimals) of the respective token.</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">sourceAssetKeys</span><span style="color: #000000"> = [</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;First asset Key&gt;&quot;</span><span style="color: #000000">),</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;Second asset Key&gt;&quot;</span><span style="color: #000000">),</span>
-<span style="color: #000000">]</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;First asset Key&gt;&#039;</span><span style="color: #000000">),</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;Second asset Key&gt;&#039;</span><span style="color: #000000">),</span>
+<span style="color: #000000">];</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">deposit_amounts</span><span style="color: #000000"> = [</span><span style="color: #098658">1000000</span><span style="color: #000000">, </span><span style="color: #098658">1000000</span><span style="color: #000000">]; </span><span style="color: #008000">// This corresponds to 1 token of each with 6 decimals precisions</span>
 
 <span style="color: #008000">//Fetching the number of decimals using the mint of a token can be done with:</span>
 <span style="color: #AF00DB">export</span><span style="color: #000000"> </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">decimalsFromMint</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> (</span>
-<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">: </span><span style="color: #267F99">Connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">mint</span><span style="color: #000000">: </span><span style="color: #267F99">PublicKey</span><span style="color: #000000">,</span>
-<span style="color: #000000">  ) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">result</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">connection</span><span style="color: #000000">.</span><span style="color: #795E26">getParsedAccountInfo</span><span style="color: #000000">(</span><span style="color: #001080">mint</span><span style="color: #000000">);</span>
-<span style="color: #000000">    </span><span style="color: #008000">// @ts-ignore</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decimals</span><span style="color: #000000"> = </span><span style="color: #001080">result</span><span style="color: #000000">?.</span><span style="color: #001080">value</span><span style="color: #000000">?.</span><span style="color: #001080">data</span><span style="color: #000000">?.</span><span style="color: #001080">parsed</span><span style="color: #000000">?.</span><span style="color: #001080">info</span><span style="color: #000000">?.</span><span style="color: #001080">decimals</span><span style="color: #000000">;</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (!</span><span style="color: #001080">decimals</span><span style="color: #000000">) {</span>
-<span style="color: #000000">      </span><span style="color: #AF00DB">throw</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Error</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Invalid mint&#039;</span><span style="color: #000000">);</span>
-<span style="color: #000000">    }</span>
-<span style="color: #000000">    </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">decimals</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">: </span><span style="color: #267F99">Connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">mint</span><span style="color: #000000">: </span><span style="color: #267F99">PublicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">) </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">result</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #001080">connection</span><span style="color: #000000">.</span><span style="color: #795E26">getParsedAccountInfo</span><span style="color: #000000">(</span><span style="color: #001080">mint</span><span style="color: #000000">);</span>
+<span style="color: #000000">  </span><span style="color: #008000">// @ts-ignore</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">decimals</span><span style="color: #000000"> = </span><span style="color: #001080">result</span><span style="color: #000000">?.</span><span style="color: #001080">value</span><span style="color: #000000">?.</span><span style="color: #001080">data</span><span style="color: #000000">?.</span><span style="color: #001080">parsed</span><span style="color: #000000">?.</span><span style="color: #001080">info</span><span style="color: #000000">?.</span><span style="color: #001080">decimals</span><span style="color: #000000">;</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">if</span><span style="color: #000000"> (!</span><span style="color: #001080">decimals</span><span style="color: #000000">) {</span>
+<span style="color: #000000">    </span><span style="color: #AF00DB">throw</span><span style="color: #000000"> </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #267F99">Error</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Invalid mint&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">  }</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">decimals</span><span style="color: #000000">;</span>
 <span style="color: #000000">};</span>
 
 <span style="color: #008000">// Maximum number of assets that can be held by the pool at any given time.</span>
@@ -144,10 +143,16 @@
 
 <span style="color: #008000">// It is necessary for the purpose of security to hardcode all Serum markets that will be usable by the pool.</span>
 <span style="color: #008000">// It is advised to put here as many trusted markets with enough liquidity as required.</span>
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">allowedMarkets</span><span style="color: #000000"> = [</span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;E14BKBhDWD4EuTkWj1ooZezesGxMW8LPCps4W5PuzZJo&#039;</span><span style="color: #000000">)]; </span><span style="color: #008000">// FIDA/USDC market address, for example</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">allowedMarkets</span><span style="color: #000000"> = [</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">PublicKey</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;E14BKBhDWD4EuTkWj1ooZezesGxMW8LPCps4W5PuzZJo&#039;</span><span style="color: #000000">),</span>
+<span style="color: #000000">]; </span><span style="color: #008000">// FIDA/USDC market address, for example</span>
 <span style="color: #008000">// Market addresses can be fetched with:</span>
-<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">marketAddress</span><span style="color: #000000"> = </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">[</span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">m</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">m</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">}).</span><span style="color: #795E26">lastIndexOf</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;Market name, FIDA/USDC for instance&gt;&quot;</span><span style="color: #000000">)].</span><span style="color: #001080">address</span><span style="color: #000000">;</span>
-
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">marketAddress</span><span style="color: #000000"> =</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">[</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">m</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">m</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }).</span><span style="color: #795E26">lastIndexOf</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;Market name, FIDA/USDC for instance&gt;&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  ].</span><span style="color: #001080">address</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// Interval of time in seconds between two fee collections. This must be greater or equal to a week (604800 s).</span>
 <span style="color: #008000">// @ts-ignore</span>
@@ -157,32 +162,31 @@
 <span style="color: #008000">// @ts-ignore</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">feePercentage</span><span style="color: #000000"> = </span><span style="color: #098658">0.1</span><span style="color: #000000">;</span>
 
-
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">pool</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-<span style="color: #000000">    </span><span style="color: #008000">// Create pool</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">, </span><span style="color: #001080">createInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createPool</span><span style="color: #000000">(</span>
-<span style="color: #000000">        </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">deposit_amounts</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">maxNumberOfAsset</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">allowedMarkets</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #008000">// @ts-ignore</span>
-<span style="color: #000000">        </span><span style="color: #001080">feeCollectionPeriod</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #008000">// @ts-ignore</span>
-<span style="color: #000000">        </span><span style="color: #001080">feePercentage</span>
-<span style="color: #000000">    )</span>
+<span style="color: #000000">  </span><span style="color: #008000">// Create pool</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">, </span><span style="color: #001080">createInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createPool</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">deposit_amounts</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">maxNumberOfAsset</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">allowedMarkets</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// @ts-ignore</span>
+<span style="color: #000000">    </span><span style="color: #001080">feeCollectionPeriod</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #008000">// @ts-ignore</span>
+<span style="color: #000000">    </span><span style="color: #001080">feePercentage</span><span style="color: #000000">,</span>
+<span style="color: #000000">  );</span>
 
-<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
-<span style="color: #000000">        </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">        [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// The owner of the source asset accounts must sign this transaction.</span>
-<span style="color: #000000">        </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">createInstructions</span>
-<span style="color: #000000">    );</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Created Pool&quot;</span><span style="color: #000000">)</span>
-<span style="color: #000000">}</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// The owner of the source asset accounts must sign this transaction.</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">createInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">  );</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Created Pool&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">};</span>
 
 <span style="color: #795E26">pool</span><span style="color: #000000">();</span>
 </code></pre>
@@ -194,19 +198,30 @@
 				</a>
 				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">MARKETS</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@project-serum/serum&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">Connection</span><span style="color: #000000">, </span><span style="color: #001080">Account</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;@solana/web3.js&#039;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">createOrder</span><span style="color: #000000">, </span><span style="color: #001080">ENDPOINTS</span><span style="color: #000000">, </span><span style="color: #001080">OrderSide</span><span style="color: #000000">, </span><span style="color: #001080">OrderType</span><span style="color: #000000">, </span><span style="color: #001080">SelfTradeBehavior</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #001080">createOrder</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">ENDPOINTS</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">OrderSide</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">OrderType</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">SelfTradeBehavior</span><span style="color: #000000">,</span>
+<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> </span><span style="color: #001080">bs58</span><span style="color: #000000"> </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bs58&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">connection</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Connection</span><span style="color: #000000">(</span><span style="color: #0070C1">ENDPOINTS</span><span style="color: #000000">.</span><span style="color: #001080">mainnet</span><span style="color: #000000">);</span>
 
-<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">marketInfo</span><span style="color: #000000"> = </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">[</span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">m</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">m</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">}).</span><span style="color: #795E26">lastIndexOf</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;Market name, FIDA/USDC for instance&gt;&quot;</span><span style="color: #000000">)];</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">marketInfo</span><span style="color: #000000"> =</span>
+<span style="color: #000000">  </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">[</span>
+<span style="color: #000000">    </span><span style="color: #0070C1">MARKETS</span><span style="color: #000000">.</span><span style="color: #795E26">map</span><span style="color: #000000">(</span><span style="color: #001080">m</span><span style="color: #000000"> </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">      </span><span style="color: #AF00DB">return</span><span style="color: #000000"> </span><span style="color: #001080">m</span><span style="color: #000000">.</span><span style="color: #001080">name</span><span style="color: #000000">;</span>
+<span style="color: #000000">    }).</span><span style="color: #795E26">lastIndexOf</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;Market name, FIDA/USDC for instance&gt;&#039;</span><span style="color: #000000">)</span>
+<span style="color: #000000">  ];</span>
 
 <span style="color: #008000">// Each bonfida-bot pool is identified by a 32 byte pool seed</span>
 <span style="color: #008000">// This seed can be encoded as a base58 string which is similar to a public key.</span>
-<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">poolSeed</span><span style="color: #000000"> = </span><span style="color: #001080">bs58</span><span style="color: #000000">.</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;poolSeeds&gt;&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">poolSeed</span><span style="color: #000000"> = </span><span style="color: #001080">bs58</span><span style="color: #000000">.</span><span style="color: #795E26">decode</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;poolSeeds&gt;&#039;</span><span style="color: #000000">);</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;MY PRIVATE KEY ARRAY&gt;&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">signalProviderAccount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Account</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;MY PRIVATE KEY ARRAY&gt;&#039;</span><span style="color: #000000">);</span>
 
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">;</span>
 
@@ -216,7 +231,6 @@
 <span style="color: #008000">// The coin lot size and price currency lot sizes can be fetched via getMarketData from &#039;bonfida-bot&#039;</span>
 <span style="color: #008000">// @ts-ignore</span>
 <span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">limitPrice</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">100000</span><span style="color: #000000">);</span>
-
 
 <span style="color: #008000">// The max quantity is defined as the maximum percentage of available coin assets to be exchanged in the transaction from the pool.</span>
 <span style="color: #008000">// If the order is an Ask, this equates to the maximum quantity willing to be sold.</span>
@@ -238,29 +252,28 @@
 <span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">selfTradeBehavior</span><span style="color: #000000"> = </span><span style="color: #001080">SelfTradeBehavior</span><span style="color: #000000">.</span><span style="color: #001080">DecrementTake</span><span style="color: #000000">;</span>
 
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">order</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">createPoolTxInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createOrder</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">poolSeed</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">marketInfo</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">side</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">limitPrice</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">maxQuantityPercentage</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">orderType</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">clientId</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">selfTradeBehavior</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #0000FF">null</span><span style="color: #000000">, </span><span style="color: #008000">// Self referring</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
+<span style="color: #000000">  );</span>
 
-<span style="color: #000000">    </span><span style="color: #0000FF">let</span><span style="color: #000000"> [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">createPoolTxInstructions</span><span style="color: #000000">] = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">createOrder</span><span style="color: #000000">(</span>
-<span style="color: #000000">        </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">poolSeed</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">marketInfo</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">side</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">limitPrice</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">maxQuantityPercentage</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">orderType</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">clientId</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">selfTradeBehavior</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #0000FF">null</span><span style="color: #000000">, </span><span style="color: #008000">// Self referring</span>
-<span style="color: #000000">        </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span>
-<span style="color: #000000">    );</span>
-
-<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
-<span style="color: #000000">        </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">        [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signers</span>
-<span style="color: #000000">        </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
-<span style="color: #000000">        </span><span style="color: #001080">createPoolTxInstructions</span>
-<span style="color: #000000">    );</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Created Order for Pool&quot;</span><span style="color: #000000">)</span>
-<span style="color: #000000">}</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">    [</span><span style="color: #001080">openOrderAccount</span><span style="color: #000000">, </span><span style="color: #001080">signalProviderAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signers</span>
+<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">    </span><span style="color: #001080">createPoolTxInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">  );</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Created Order for Pool&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">};</span>
 
 <span style="color: #795E26">order</span><span style="color: #000000">();</span>
 </code></pre>
@@ -273,10 +286,7 @@
 				<p>In exchange for a distribution of tokens which is proportional to the current asset holdings of the pool, a pool will issue pool tokens which
 				are redeemable for a commensurate proportion of pool assets at a later date. This operation represents the fundamental investment mechanism.</p>
 				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">deposit</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
-<span style="color: #000000">  </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">Numberu64</span><span style="color: #000000">,</span>
-<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">BONFIDABOT_PROGRAM_ID</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// This value represents the maximum amount of pool tokens being requested by the user</span>
@@ -287,27 +297,25 @@
 <span style="color: #008000">// @ts-ignore</span>
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">poolTokenAmount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">3000000</span><span style="color: #000000">);</span>
 
-
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">depositIntoPool</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-
-<span style="color: #000000">    </span><span style="color: #008000">// Deposit into Pool.</span>
-<span style="color: #000000">    </span><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">depositTxInstructions</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">deposit</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #008000">// Deposit into Pool.</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">depositTxInstructions</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">deposit</span><span style="color: #000000">(</span>
 <span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">poolTokenAmount</span><span style="color: #000000">,</span>
 <span style="color: #000000">    [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">],</span>
 <span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
-<span style="color: #000000">    );</span>
+<span style="color: #000000">  );</span>
 
-<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
 <span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
 <span style="color: #000000">    [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signer</span>
 <span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">depositTxInstructions</span><span style="color: #000000">,</span>
-<span style="color: #000000">    );</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Deposited into Pool&#039;</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
+<span style="color: #000000">  );</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Deposited into Pool&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">};</span>
 
 <span style="color: #795E26">depositIntoPool</span><span style="color: #000000">();</span>
 </code></pre>
@@ -315,10 +323,7 @@
 					<h4>Retrieving funds from a pool</h4>
 				</a>
 				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">redeem</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
-<span style="color: #AF00DB">import</span><span style="color: #000000"> {</span>
-<span style="color: #000000">  </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">,</span>
-<span style="color: #000000">  </span><span style="color: #001080">Numberu64</span><span style="color: #000000">,</span>
-<span style="color: #000000">} </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
+<span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000">, </span><span style="color: #001080">Numberu64</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 
 <span style="color: #008000">// By setting this value to be lower than the actual pool token balance of the pool token account,</span>
 <span style="color: #008000">// It is possible to partially redeem assets from a pool.</span>
@@ -326,24 +331,23 @@
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">poolTokenAmount</span><span style="color: #000000"> = </span><span style="color: #0000FF">new</span><span style="color: #000000"> </span><span style="color: #795E26">Numberu64</span><span style="color: #000000">(</span><span style="color: #098658">1000000</span><span style="color: #000000">);</span>
 
 <span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #795E26">redeemFromPool</span><span style="color: #000000"> = </span><span style="color: #0000FF">async</span><span style="color: #000000"> () </span><span style="color: #0000FF">=&gt;</span><span style="color: #000000"> {</span>
-
-<span style="color: #000000">    </span><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">redeemTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">redeem</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">redeemTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">redeem</span><span style="color: #000000">(</span>
 <span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">.</span><span style="color: #001080">publicKey</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">sourcePoolTokenKey</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">sourceAssetKeys</span><span style="color: #000000">,</span>
 <span style="color: #000000">    [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">],</span>
 <span style="color: #000000">    </span><span style="color: #001080">poolTokenAmount</span><span style="color: #000000">,</span>
-<span style="color: #000000">    );</span>
+<span style="color: #000000">  );</span>
 
-<span style="color: #000000">    </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
+<span style="color: #000000">  </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
 <span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
 <span style="color: #000000">    [</span><span style="color: #001080">sourceOwnerAccount</span><span style="color: #000000">], </span><span style="color: #008000">// Required transaction signer</span>
 <span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
 <span style="color: #000000">    </span><span style="color: #001080">redeemTxInstruction</span><span style="color: #000000">,</span>
-<span style="color: #000000">    );</span>
-<span style="color: #000000">    </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Redeemed out of Pool&#039;</span><span style="color: #000000">);</span>
-<span style="color: #000000">}</span>
+<span style="color: #000000">  );</span>
+<span style="color: #000000">  </span><span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Redeemed out of Pool&#039;</span><span style="color: #000000">);</span>
+<span style="color: #000000">};</span>
 
 <span style="color: #795E26">redeemFromPool</span><span style="color: #000000">();</span>
 </code></pre>
@@ -356,7 +360,7 @@
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">settleFunds</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 
-<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;&lt;MY PRIVATE KEY ARRAY&gt;&quot;</span><span style="color: #000000">);</span>
+<span style="color: #0000FF">const</span><span style="color: #000000"> </span><span style="color: #0070C1">payerAccount</span><span style="color: #000000"> = </span><span style="color: #795E26">Account</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;&lt;MY PRIVATE KEY ARRAY&gt;&#039;</span><span style="color: #000000">);</span>
 
 <span style="color: #008000">// It is also possible to settle all openOrders for a pool via getPoolOrderInfos from &#039;bonfida-bot&#039;</span>
 <span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">settleFundsTxInstructions</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">settleFunds</span><span style="color: #000000">(</span>
@@ -365,16 +369,15 @@
 <span style="color: #000000">  </span><span style="color: #001080">marketAddress</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #001080">OpenOrderAccount</span><span style="color: #000000">.</span><span style="color: #001080">address</span><span style="color: #000000">,</span>
 <span style="color: #000000">  </span><span style="color: #0000FF">null</span><span style="color: #000000">,</span>
-<span style="color: #000000">  );</span>
+<span style="color: #000000">);</span>
 
 <span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
-<span style="color: #000000">    </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">    [], </span><span style="color: #008000">// No signer is required for this transaction! (Except to pay for transaction fees)</span>
-<span style="color: #000000">    </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
-<span style="color: #000000">    </span><span style="color: #001080">settleFundsTxInstructions</span>
-<span style="color: #000000">  );</span>
-<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&quot;Settled Funds&quot;</span><span style="color: #000000">)</span>
-
+<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
+<span style="color: #000000">  [], </span><span style="color: #008000">// No signer is required for this transaction! (Except to pay for transaction fees)</span>
+<span style="color: #000000">  </span><span style="color: #001080">payerAccount</span><span style="color: #000000">,</span>
+<span style="color: #000000">  </span><span style="color: #001080">settleFundsTxInstructions</span><span style="color: #000000">,</span>
+<span style="color: #000000">);</span>
+<span style="color: #001080">console</span><span style="color: #000000">.</span><span style="color: #795E26">log</span><span style="color: #000000">(</span><span style="color: #A31515">&#039;Settled Funds&#039;</span><span style="color: #000000">);</span>
 </code></pre>
 				<a href="#triggering-a-fee-collection-operation" id="triggering-a-fee-collection-operation" style="color: inherit; text-decoration: none;">
 					<h3>Triggering a fee collection operation</h3>
@@ -404,10 +407,7 @@
 				<pre><code class="language-ts"><span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">collectFees</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 <span style="color: #AF00DB">import</span><span style="color: #000000"> { </span><span style="color: #001080">signAndSendTransactionInstructions</span><span style="color: #000000"> } </span><span style="color: #AF00DB">from</span><span style="color: #000000"> </span><span style="color: #A31515">&#039;bonfida-bot&#039;</span><span style="color: #000000">;</span>
 
-<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">collectFeesTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">collectFees</span><span style="color: #000000">(</span>
-<span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
-<span style="color: #000000">  [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">],</span>
-<span style="color: #000000">);</span>
+<span style="color: #0000FF">let</span><span style="color: #000000"> </span><span style="color: #001080">collectFeesTxInstruction</span><span style="color: #000000"> = </span><span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">collectFees</span><span style="color: #000000">(</span><span style="color: #001080">connection</span><span style="color: #000000">, [</span><span style="color: #001080">poolSeed</span><span style="color: #000000">]);</span>
 
 <span style="color: #AF00DB">await</span><span style="color: #000000"> </span><span style="color: #795E26">signAndSendTransactionInstructions</span><span style="color: #000000">(</span>
 <span style="color: #000000">  </span><span style="color: #001080">connection</span><span style="color: #000000">,</span>
