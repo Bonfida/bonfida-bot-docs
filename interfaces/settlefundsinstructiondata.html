@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>PoolStatusID | @bonfida/bot</title>
+	<title>SettleFundsInstructionData | @bonfida/bot</title>
 	<meta name="description" content="Documentation for @bonfida/bot">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -55,82 +55,68 @@
 					<a href="../modules.html">@bonfida/bot</a>
 				</li>
 				<li>
-					<a href="poolstatusid.html">PoolStatusID</a>
+					<a href="settlefundsinstructiondata.html">SettleFundsInstructionData</a>
 				</li>
 			</ul>
-			<h1>Enumeration PoolStatusID</h1>
+			<h1>Interface SettleFundsInstructionData</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-hierarchy">
+				<h3>Hierarchy</h3>
+				<ul class="tsd-hierarchy">
+					<li>
+						<span class="target">SettleFundsInstructionData</span>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Enumeration members</h3>
+							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="poolstatusid.html#locked" class="tsd-kind-icon">Locked</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="poolstatusid.html#lockedpendingorder" class="tsd-kind-icon">Locked<wbr>Pending<wbr>Order</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="poolstatusid.html#pendingorder" class="tsd-kind-icon">Pending<wbr>Order</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="poolstatusid.html#uninitialized" class="tsd-kind-icon">Uninitialized</a></li>
-								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="poolstatusid.html#unlocked" class="tsd-kind-icon">Unlocked</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="settlefundsinstructiondata.html#coinindex" class="tsd-kind-icon">coin<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="settlefundsinstructiondata.html#pcindex" class="tsd-kind-icon">pc<wbr>Index</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="settlefundsinstructiondata.html#poolseed" class="tsd-kind-icon">pool<wbr>Seed</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Enumeration members</h2>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="locked" class="tsd-anchor"></a>
-					<h3>Locked</h3>
-					<div class="tsd-signature tsd-kind-icon">Locked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 2</span></div>
+				<h2>Properties</h2>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="coinindex" class="tsd-anchor"></a>
+					<h3>coin<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">coin<wbr>Index<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/state.ts#L30">src/state.ts:30</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/instructions.ts#L61">src/instructions.ts:61</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="lockedpendingorder" class="tsd-anchor"></a>
-					<h3>Locked<wbr>Pending<wbr>Order</h3>
-					<div class="tsd-signature tsd-kind-icon">Locked<wbr>Pending<wbr>Order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 4</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="pcindex" class="tsd-anchor"></a>
+					<h3>pc<wbr>Index</h3>
+					<div class="tsd-signature tsd-kind-icon">pc<wbr>Index<span class="tsd-signature-symbol">:</span> <a href="../enums/orderside.html" class="tsd-signature-type" data-tsd-kind="Enumeration">OrderSide</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/state.ts#L32">src/state.ts:32</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/instructions.ts#L60">src/instructions.ts:60</a></li>
 						</ul>
 					</aside>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="pendingorder" class="tsd-anchor"></a>
-					<h3>Pending<wbr>Order</h3>
-					<div class="tsd-signature tsd-kind-icon">Pending<wbr>Order<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 3</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="poolseed" class="tsd-anchor"></a>
+					<h3>pool<wbr>Seed</h3>
+					<div class="tsd-signature tsd-kind-icon">pool<wbr>Seed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/state.ts#L31">src/state.ts:31</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="uninitialized" class="tsd-anchor"></a>
-					<h3>Uninitialized</h3>
-					<div class="tsd-signature tsd-kind-icon">Uninitialized<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 0</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/state.ts#L28">src/state.ts:28</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
-					<a name="unlocked" class="tsd-anchor"></a>
-					<h3>Unlocked</h3>
-					<div class="tsd-signature tsd-kind-icon">Unlocked<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol"> = 1</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/state.ts#L29">src/state.ts:29</a></li>
+							<li>Defined in <a href="https://github.com/Bonfida/bonfida-bot/blob/e777730/js/src/instructions.ts#L59">src/instructions.ts:59</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -148,23 +134,17 @@
 				<ul class="before-current">
 				</ul>
 				<ul class="current">
-					<li class="current tsd-kind-enum">
-						<a href="poolstatusid.html" class="tsd-kind-icon">Pool<wbr>StatusID</a>
+					<li class="current tsd-kind-interface">
+						<a href="settlefundsinstructiondata.html" class="tsd-kind-icon">Settle<wbr>Funds<wbr>Instruction<wbr>Data</a>
 						<ul>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="poolstatusid.html#locked" class="tsd-kind-icon">Locked</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="settlefundsinstructiondata.html#coinindex" class="tsd-kind-icon">coin<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="poolstatusid.html#lockedpendingorder" class="tsd-kind-icon">Locked<wbr>Pending<wbr>Order</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="settlefundsinstructiondata.html#pcindex" class="tsd-kind-icon">pc<wbr>Index</a>
 							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="poolstatusid.html#pendingorder" class="tsd-kind-icon">Pending<wbr>Order</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="poolstatusid.html#uninitialized" class="tsd-kind-icon">Uninitialized</a>
-							</li>
-							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
-								<a href="poolstatusid.html#unlocked" class="tsd-kind-icon">Unlocked</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="settlefundsinstructiondata.html#poolseed" class="tsd-kind-icon">pool<wbr>Seed</a>
 							</li>
 						</ul>
 					</li>
